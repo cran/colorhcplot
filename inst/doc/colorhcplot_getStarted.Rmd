@@ -1,0 +1,84 @@
+---
+title: "Getting started with colorhcplot"
+author: "Damiano Fantini"
+date: "February 19, 2018"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with colorhcplot} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\usepackage[utf8]{inputenc}
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The `colorhcplot` package is a convenient tool for plotting colorful dendrograms where clusters, or sample groups, are highlighted by different colors. In order to generate a colorful dendrogram, `colorhcplot()` function requires 2 mandatory arguments: `hc` and `fac`: 
+
+* `hc` is the result of a `hclust()` call
+
+* `fac` is a factor defining the grouping 
+
+The number of leaves of the dendrogram has to be identical to the length of fac (i.e., length(hc$labels) == length(fac) has to be TRUE). Also, the optional `colors` argument (if supplied) has to have a length of 1 (single color) or equal to the length of the levels of `fac`.
+
+
+## Install
+```{r first install, eval=FALSE, include=TRUE}
+install.packages("colorhcplot")
+library(colorhcplot)
+```
+
+```{r gooo, eval=TRUE, include=FALSE, echo=FALSE}
+library(colorhcplot)
+```
+
+## Example 1: using the USArrests dataset
+
+The first example is based on the USArrests dataset and compares the results of the standard `plot` method applied to a hclust-class object and the output of `colorhcplot()`. The use of simple arguments is illustrated.
+
+```{r first example, fig.align='center', fig.width=7.2, fig.height=4.5}
+data(USArrests)
+hc <- hclust(dist(USArrests), "ave")
+fac <- as.factor(c(rep("group 1", 10), 
+                   rep("group 2", 10), 
+                   rep("unknown", 30)))
+plot(hc)
+colorhcplot(hc, fac)
+colorhcplot(hc, fac, hang = -1, lab.cex = 0.8)
+```
+
+
+### Example 2: use the "ward.D2" algorithm and the UScitiesD dataset
+
+The second example is based on the UScitiesD dataset. Here we show how to specify custom colors for the `colorhcplot()` call, using the `colors` argument. 
+
+```{r second example, fig.align='center', fig.width=6.5, fig.height=4}
+data(UScitiesD)
+hcity.D2 <- hclust(UScitiesD, "ward.D2")
+fac.D2 <-as.factor(c(rep("group1", 3), 
+                     rep("group2", 7)))
+plot(hcity.D2, hang=-1)
+colorhcplot(hcity.D2, fac.D2, color = c("chartreuse2", "orange2"))
+colorhcplot(hcity.D2, fac.D2, color = "gray30", lab.cex = 1.2, lab.mar = 0.75)
+```
+
+## Example 3: use gene expression data 
+
+The third example is based on a sample gene expression dataset, which is included in the `colorhcplot` package. This illustrate how to use `colorhcplot()` for exploration and analysis of genomic data.  
+
+```{r thirs example, fig.align='center', fig.width=7, fig.height=4.5}
+data(geneData, package="colorhcplot")
+exprs <- geneData$exprs
+fac <- geneData$fac
+hc <- hclust(dist(t(exprs)))
+colorhcplot(hc, fac, main ="default", col = "gray10")
+colorhcplot(hc, fac, main="Control vs. Tumor Samples") 
+```
+
+## SessionInfo 
+
+```{r session Info, fig.align='center', fig.width=7, fig.height=4.5}
+sessionInfo()
+```
