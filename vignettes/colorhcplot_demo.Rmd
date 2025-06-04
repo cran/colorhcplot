@@ -1,12 +1,13 @@
 ---
 title: "Getting started with colorhcplot"
 author: "Damiano Fantini"
-date: "February 19, 2018"
+date: "May 31, 2025"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting started with colorhcplot} 
+  %\VignetteIndexEntry{get_started_with_colorhcplot} 
   %\VignetteEngine{knitr::rmarkdown} 
-  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
+
 ---
 
 
